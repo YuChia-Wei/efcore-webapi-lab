@@ -82,6 +82,9 @@ dotnet ef dbcontext scaffold "Data Source=localhost;Initial Catalog=EFCoreSample
 完成以上兩個步驟就已經完成在 docker 上建置 sql server 2019，可用 localhost:1433 去測試 sql server 是否可以連線
 
 > Host：localhost
+> 
 > Port：1433
+> 
 > 帳號：SA
+> 
 > 密碼：\<YourStrong@Passw0rd\>
