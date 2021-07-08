@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
 #nullable disable
 
-namespace LabWebApi
+namespace LabWebApi.Repository.Entities
 {
     public partial class DbFirstTable
     {

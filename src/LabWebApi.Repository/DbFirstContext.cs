@@ -1,10 +1,9 @@
-﻿using System;
+﻿using LabWebApi.Repository.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace LabWebApi
+namespace LabWebApi.Repository
 {
     public partial class DbFirstContext : DbContext
     {

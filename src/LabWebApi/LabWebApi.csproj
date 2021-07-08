@@ -4,14 +4,15 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\LabWebApi.xml</DocumentationFile>
+    </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="5.0.7" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.7" />
-    </ItemGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\LabWebApi.xml</DocumentationFile>
+    </PropertyGroup>
+
+
+    
 
 </Project>
