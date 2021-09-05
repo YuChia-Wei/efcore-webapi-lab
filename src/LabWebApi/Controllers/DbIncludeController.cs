@@ -28,7 +28,7 @@ namespace LabWebApi.Controllers
         /// <summary>
         /// </summary>
         /// <returns></returns>
-        [HttpGet()]
+        [HttpPost()]
         public async Task<DbFirstTable> GenerateAsync()
         {
             var data = new DbFirstTable
