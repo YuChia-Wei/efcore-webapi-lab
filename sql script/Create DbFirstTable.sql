@@ -1,23 +1,62 @@
-create table DbFirstTable
+use EFCoreSample
+go
+
+create table EndTable
 (
-	Id int identity
-		constraint DbFirstTable_pk
+	EndId int identity
+		constraint EndTable_pk
 			primary key nonclustered,
-	DateTimeField datetime2,
-	AmountField decimal,
-	StringField nvarchar
+	EndData nvarchar(100)
 )
 go
 
-exec sp_addextendedproperty 'MS_Description', '我是 PK', 'SCHEMA', 'DbFirstSample', 'TABLE', 'DbFirstTable', 'COLUMN', 'Id'
+create table SubTable
+(
+	SubId int identity
+		constraint SubTable_pk
+			primary key nonclustered,
+	SubData nvarchar(100),
+	EndId int
+		constraint SubTable_EndTalbe_EndId_fk
+			references EndTable
+)
 go
 
-exec sp_addextendedproperty 'MS_Description', '我是日期欄位', 'SCHEMA', 'DbFirstSample', 'TABLE', 'DbFirstTable', 'COLUMN', 'DateTimeField'
+create table DbFirstTable
+(
+	MainId int identity
+		constraint DbFirstTable_pk
+			primary key nonclustered,
+	MainData nvarchar(100),
+	AmountField decimal,
+	DateTimeField datetime2,
+	SubId int
+		constraint DbFirstTable_SubTable_SubId_fk
+			references SubTable
+)
 go
 
-exec sp_addextendedproperty 'MS_Description', '我是金額欄位 (金額一定要 decimal)', 'SCHEMA', 'DbFirstSample', 'TABLE', 'DbFirstTable', 'COLUMN', 'AmountField'
+create table SubListTable
+(
+	SubId int identity
+		constraint SubListTable_pk
+			primary key nonclustered,
+	SubData nvarchar(100),
+	MainId int
+		constraint SubListTable_MainTable_MainId_fk
+			references DbFirstTable
+)
 go
 
-exec sp_addextendedproperty 'MS_Description', '我是文字欄位', 'SCHEMA', 'DbFirstSample', 'TABLE', 'DbFirstTable', 'COLUMN', 'StringField'
+create table EndListTable
+(
+	EndId int identity
+		constraint EndListTable_pk
+			primary key nonclustered,
+	EndData nvarchar(100),
+	SubId int
+		constraint EndListTable_SubTable_SubId_fk
+			references SubListTable
+)
 go
 
