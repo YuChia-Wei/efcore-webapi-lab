@@ -15,14 +15,40 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Content Remove="appsettings.Debug.json" />
+      <Content Remove="appsettings.Release.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="appsettings.Debug.json">
+        <IsTransformFile>true</IsTransformFile>
+        <DependentUpon>appsettings.json</DependentUpon>
+      </None>
+      <None Include="appsettings.Release.json">
+        <IsTransformFile>true</IsTransformFile>
+        <DependentUpon>appsettings.json</DependentUpon>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.7" />
       <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
+      <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="3.2.26">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
       <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.1.4" />
       <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.4" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.4" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="appsettings.json">
+        <TransformOnBuild>true</TransformOnBuild>
+      </Content>
     </ItemGroup>
 
 </Project>
