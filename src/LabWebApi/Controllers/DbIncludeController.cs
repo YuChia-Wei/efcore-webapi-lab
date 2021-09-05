@@ -104,27 +104,5 @@ namespace LabWebApi.Controllers
                                               .ToListAsync();
             return Ok(dbFirstTables);
         }
-
-        private EndListTable AddEndList(SubListTable subListTable)
-        {
-            var endListTable = new EndListTable
-            {
-                EndData = "this is sub list data",
-                SubId = subListTable.SubId
-            };
-            _context.EndListTables.Add(endListTable);
-            return endListTable;
-        }
-
-        private SubListTable AddSubList(DbFirstTable data)
-        {
-            var subListTable = new SubListTable
-            {
-                SubData = "this is sub list data",
-                MainId = data.MainId
-            };
-            _context.SubListTables.Add(subListTable);
-            return subListTable;
-        }
     }
 }
