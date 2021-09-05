@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LabWebApi.Repository;
@@ -43,10 +44,47 @@ namespace LabWebApi.Controllers
                     {
                         EndData = "this is end"
                     }
+                },
+                SubListTables = new List<SubListTable>()
+                {
+                    new SubListTable()
+                    {
+                        SubData = "this is sub list data 1",
+                        EndListTables = new List<EndListTable>()
+                        {
+                            new EndListTable()
+                            {
+                                EndData = "this is endList data -1 for sub 1"
+                            },
+                            new EndListTable()
+                            {
+                                EndData = "this is endList data -2 for sub 1"
+                            },
+                        }
+                    },
+                    new SubListTable()
+                    {
+                        SubData = "this is sub list data 2",
+                        EndListTables = new List<EndListTable>()
+                        {
+                            new EndListTable()
+                            {
+                                EndData = "this is endList data -1 for sub 2"
+                            },
+                            new EndListTable()
+                            {
+                                EndData = "this is endList data -2 for sub 2"
+                            },
+                        }
+
+                    },
                 }
             };
+            
             _context.DbFirstTables.Add(data);
+
             await _context.SaveChangesAsync();
+            
             return data;
         }
 
@@ -61,8 +99,32 @@ namespace LabWebApi.Controllers
                                               .Where(o => o.MainId == id)
                                               .Include(o => o.Sub)
                                               .ThenInclude(o => o.End)
+                                              .Include(o => o.SubListTables)
+                                              .ThenInclude(o => o.EndListTables)
                                               .ToListAsync();
             return Ok(dbFirstTables);
+        }
+
+        private EndListTable AddEndList(SubListTable subListTable)
+        {
+            var endListTable = new EndListTable
+            {
+                EndData = "this is sub list data",
+                SubId = subListTable.SubId
+            };
+            _context.EndListTables.Add(endListTable);
+            return endListTable;
+        }
+
+        private SubListTable AddSubList(DbFirstTable data)
+        {
+            var subListTable = new SubListTable
+            {
+                SubData = "this is sub list data",
+                MainId = data.MainId
+            };
+            _context.SubListTables.Add(subListTable);
+            return subListTable;
         }
     }
 }

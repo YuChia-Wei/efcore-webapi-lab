@@ -1,4 +1,6 @@
-﻿#nullable disable
+﻿using Newtonsoft.Json;
+
+#nullable disable
 
 namespace LabWebApi.Repository.Entities
 {
@@ -8,6 +10,7 @@ namespace LabWebApi.Repository.Entities
         public string EndData { get; set; }
         public int? SubId { get; set; }
 
+        [JsonIgnore]
         public virtual SubListTable Sub { get; set; }
     }
 }
