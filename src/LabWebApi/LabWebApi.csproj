@@ -46,6 +46,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\LabWebApi.Repository\LabWebApi.Repository.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Content Update="appsettings.json">
         <TransformOnBuild>true</TransformOnBuild>
       </Content>
