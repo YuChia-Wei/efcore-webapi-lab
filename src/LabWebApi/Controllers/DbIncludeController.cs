@@ -76,15 +76,14 @@ namespace LabWebApi.Controllers
                                 EndData = "this is endList data -2 for sub 2"
                             },
                         }
-
                     },
                 }
             };
-            
+
             _context.DbFirstTables.Add(data);
 
             await _context.SaveChangesAsync();
-            
+
             return data;
         }
 

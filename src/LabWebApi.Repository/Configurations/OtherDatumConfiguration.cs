@@ -1,0 +1,24 @@
+﻿using LabWebApi.Repository.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace LabWebApi.Repository.Configurations
+{
+    public partial class OtherDatumConfiguration : IEntityTypeConfiguration<OtherDatum>
+    {
+        public void Configure(EntityTypeBuilder<OtherDatum> entity)
+        {
+            entity.HasKey(e => e.OtherId)
+                  .HasName("OtherData_pk");
+
+            entity.HasIndex(e => e.OtherId, "OtherData_OtherId_uindex")
+                  .IsUnique();
+
+            entity.Property(e => e.Data).HasMaxLength(1);
+
+            OnConfigurePartial(entity);
+        }
+
+        partial void OnConfigurePartial(EntityTypeBuilder<OtherDatum> entity);
+    }
+}
