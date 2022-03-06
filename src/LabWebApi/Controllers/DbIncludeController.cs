@@ -103,5 +103,20 @@ namespace LabWebApi.Controllers
                                               .ToListAsync();
             return Ok(dbFirstTables);
         }
+        
+        /// <summary>
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("EditInfo/{id:int}")]
+        public async Task<IActionResult> GetEditInfoAsync(int id)
+        {
+            var dbFirstTables = await _context.EditInfos
+                                              .Where(o => o.EditId == id)
+                                              .Include(o => o.New)
+                                              .Include(o => o.Old)
+                                              .ToListAsync();
+            return Ok(dbFirstTables);
+        }
     }
 }
