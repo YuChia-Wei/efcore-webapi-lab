@@ -60,3 +60,34 @@ create table EndListTable
 )
 go
 
+create table OtherData
+(
+    OtherId int identity
+        constraint OtherData_pk
+            primary key,
+    Data    nvarchar
+)
+go
+
+create unique index OtherData_OtherId_uindex
+    on OtherData (OtherId)
+go
+
+create table EditInfo
+(
+    OldId  int
+        constraint EditInfo_OtherData_OtherId_fk_Old
+            references OtherData,
+    NewId  int
+        constraint EditInfo_OtherData_OtherId_fk_New
+            references OtherData,
+    EditId int identity
+        constraint EditInfo_pk
+            primary key
+)
+go
+
+create unique index EditInfo_EditId_uindex
+    on EditInfo (EditId)
+go
+
