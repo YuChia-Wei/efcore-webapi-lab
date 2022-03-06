@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LabWebApi.Repository
 {
-    public partial class EfcoreSampleContext : DbContext
+    public partial class EfCoreSampleContext : DbContext
     {
-        public EfcoreSampleContext()
+        public EfCoreSampleContext()
         {
         }
 
-        public EfcoreSampleContext(DbContextOptions<EfcoreSampleContext> options)
+        public EfCoreSampleContext(DbContextOptions<EfCoreSampleContext> options)
             : base(options)
         {
         }
