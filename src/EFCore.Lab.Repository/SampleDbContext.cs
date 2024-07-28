@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.Lab.Repository;
 
-public partial class EfCoreSampleContext : DbContext
+public partial class SampleDbContext : DbContext
 {
-    public EfCoreSampleContext()
+    public SampleDbContext()
     {
     }
 
-    public EfCoreSampleContext(DbContextOptions<EfCoreSampleContext> options)
+    public SampleDbContext(DbContextOptions<SampleDbContext> options)
         : base(options)
     {
     }

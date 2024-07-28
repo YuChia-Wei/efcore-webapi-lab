@@ -15,13 +15,13 @@ namespace EFCore.Lab.WebApi.Controllers;
 [ApiController]
 public class DbIncludeController : ControllerBase
 {
-    private readonly EfCoreSampleContext _context;
+    private readonly SampleDbContext _context;
 
     /// <summary>
     /// ctor
     /// </summary>
     /// <param name="context"></param>
-    public DbIncludeController(EfCoreSampleContext context)
+    public DbIncludeController(SampleDbContext context)
     {
         this._context = context;
     }

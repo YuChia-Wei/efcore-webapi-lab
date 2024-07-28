@@ -1,21 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net.Mime;
-using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using EFCore.Lab.Repository;
 using EFCore.Lab.WebApi.Infrastructure.CustomJsonConverter;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,7 +54,17 @@ builder.Services.AddSwaggerGen(options =>
     }
 });
 
-builder.Services.AddDbContext<EfCoreSampleContext>();
+builder.Services.AddDbContext<SampleDbContext>(
+    (provider, dbContextOptionsBuilder) =>
+    {
+        var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+
+        dbContextOptionsBuilder.UseLoggerFactory(loggerFactory)
+                               .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                               .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    },
+    ServiceLifetime.Scoped,
+    ServiceLifetime.Singleton);
 
 builder.Services.AddHealthChecks();
 
@@ -79,7 +85,7 @@ app.UseHealthChecks("/health");
 app.UseSwagger()
    .UseSwaggerUI(options =>
    {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Lab Web Api v1");
+       options.SwaggerEndpoint("/swagger/v1/swagger.json", "Lab Web Api v1");
    });
 
 app.UseRouting();

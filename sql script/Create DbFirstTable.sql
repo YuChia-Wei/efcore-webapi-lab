@@ -1,64 +1,65 @@
-use EFCoreSample
+use SampleDb
+
 go
 
 create table EndTable
 (
-	EndId int identity
-		constraint EndTable_pk
-			primary key nonclustered,
-	EndData nvarchar(100)
+    EndId   int identity
+        constraint EndTable_pk
+            primary key nonclustered,
+    EndData nvarchar(100)
 )
-go
+    go
 
 create table SubTable
 (
-	SubId int identity
-		constraint SubTable_pk
-			primary key nonclustered,
-	SubData nvarchar(100),
-	EndId int
-		constraint SubTable_EndTalbe_EndId_fk
-			references EndTable
+    SubId   int identity
+        constraint SubTable_pk
+            primary key nonclustered,
+    SubData nvarchar(100),
+    EndId   int
+        constraint SubTable_EndTalbe_EndId_fk
+            references EndTable
 )
-go
+    go
 
 create table DbFirstTable
 (
-	MainId int identity
-		constraint DbFirstTable_pk
-			primary key nonclustered,
-	MainData nvarchar(100),
-	AmountField decimal,
-	DateTimeField datetime2,
-	SubId int
-		constraint DbFirstTable_SubTable_SubId_fk
-			references SubTable
+    MainId        int identity
+        constraint DbFirstTable_pk
+            primary key nonclustered,
+    MainData      nvarchar(100),
+    AmountField   decimal,
+    DateTimeField datetime2,
+    SubId         int
+        constraint DbFirstTable_SubTable_SubId_fk
+            references SubTable
 )
-go
+    go
 
 create table SubListTable
 (
-	SubId int identity
-		constraint SubListTable_pk
-			primary key nonclustered,
-	SubData nvarchar(100),
-	MainId int
-		constraint SubListTable_MainTable_MainId_fk
-			references DbFirstTable
+    SubId   int identity
+        constraint SubListTable_pk
+            primary key nonclustered,
+    SubData nvarchar(100),
+    MainId  int
+        constraint SubListTable_MainTable_MainId_fk
+            references DbFirstTable
 )
-go
+    go
 
 create table EndListTable
 (
-	EndId int identity
-		constraint EndListTable_pk
-			primary key nonclustered,
-	EndData nvarchar(100),
-	SubId int
-		constraint EndListTable_SubTable_SubId_fk
-			references SubListTable
+    EndId   int identity
+        constraint EndListTable_pk
+            primary key nonclustered,
+    EndData nvarchar(100),
+    SubId   int
+        constraint EndListTable_SubTable_SubId_fk
+            references SubListTable
 )
-go
+    go
 
 create table OtherData
 (
@@ -67,11 +68,11 @@ create table OtherData
             primary key,
     Data    nvarchar
 )
-go
+    go
 
 create unique index OtherData_OtherId_uindex
     on OtherData (OtherId)
-go
+    go
 
 create table EditInfo
 (
@@ -85,9 +86,9 @@ create table EditInfo
         constraint EditInfo_pk
             primary key
 )
-go
+    go
 
 create unique index EditInfo_EditId_uindex
     on EditInfo (EditId)
-go
+    go
 
