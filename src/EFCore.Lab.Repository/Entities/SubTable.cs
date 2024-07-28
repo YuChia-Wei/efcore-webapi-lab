@@ -15,7 +15,7 @@ public partial class SubTable
     public int? EndId { get; set; }
 
     public virtual EndTable End { get; set; }
-        
+
     [JsonIgnore]
     public virtual ICollection<DbFirstTable> DbFirstTables { get; set; }
 }

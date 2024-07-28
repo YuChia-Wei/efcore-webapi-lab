@@ -37,46 +37,28 @@ public class DbIncludeController : ControllerBase
             MainData = "123",
             AmountField = 123,
             DateTimeField = DateTime.Now,
-            Sub = new SubTable
-            {
-                SubData = "this is sub",
-                End = new EndTable
-                {
-                    EndData = "this is end"
-                }
-            },
+            Sub = new SubTable { SubData = "this is sub", End = new EndTable { EndData = "this is end" } },
             SubListTables = new List<SubListTable>()
             {
                 new SubListTable()
                 {
                     SubData = "this is sub list data 1",
-                    EndListTables = new List<EndListTable>()
-                    {
-                        new EndListTable()
+                    EndListTables =
+                        new List<EndListTable>()
                         {
-                            EndData = "this is endList data -1 for sub 1"
-                        },
-                        new EndListTable()
-                        {
-                            EndData = "this is endList data -2 for sub 1"
-                        },
-                    }
+                            new EndListTable() { EndData = "this is endList data -1 for sub 1" },
+                            new EndListTable() { EndData = "this is endList data -2 for sub 1" }
+                        }
                 },
                 new SubListTable()
                 {
                     SubData = "this is sub list data 2",
                     EndListTables = new List<EndListTable>()
                     {
-                        new EndListTable()
-                        {
-                            EndData = "this is endList data -1 for sub 2"
-                        },
-                        new EndListTable()
-                        {
-                            EndData = "this is endList data -2 for sub 2"
-                        },
+                        new EndListTable() { EndData = "this is endList data -1 for sub 2" },
+                        new EndListTable() { EndData = "this is endList data -2 for sub 2" }
                     }
-                },
+                }
             }
         };
 
