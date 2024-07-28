@@ -2,28 +2,27 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EFCore.Lab.Repository.Configurations
+namespace EFCore.Lab.Repository.Configurations;
+
+public partial class SubTableConfiguration : IEntityTypeConfiguration<SubTable>
 {
-    public partial class SubTableConfiguration : IEntityTypeConfiguration<SubTable>
+    public void Configure(EntityTypeBuilder<SubTable> entity)
     {
-        public void Configure(EntityTypeBuilder<SubTable> entity)
-        {
-            entity.HasKey(e => e.SubId)
-                  .HasName("SubTable_pk")
-                  .IsClustered(false);
+        entity.HasKey(e => e.SubId)
+              .HasName("SubTable_pk")
+              .IsClustered(false);
 
-            entity.ToTable("SubTable");
+        entity.ToTable("SubTable");
 
-            entity.Property(e => e.SubData).HasMaxLength(100);
+        entity.Property(e => e.SubData).HasMaxLength(100);
 
-            entity.HasOne(d => d.End)
-                  .WithMany(p => p.SubTables)
-                  .HasForeignKey(d => d.EndId)
-                  .HasConstraintName("SubTable_EndTalbe_EndId_fk");
+        entity.HasOne(d => d.End)
+              .WithMany(p => p.SubTables)
+              .HasForeignKey(d => d.EndId)
+              .HasConstraintName("SubTable_EndTalbe_EndId_fk");
 
-            this.OnConfigurePartial(entity);
-        }
-
-        partial void OnConfigurePartial(EntityTypeBuilder<SubTable> entity);
+        this.OnConfigurePartial(entity);
     }
+
+    partial void OnConfigurePartial(EntityTypeBuilder<SubTable> entity);
 }
