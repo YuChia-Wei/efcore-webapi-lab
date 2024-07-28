@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace LabWebApi.Repository.Entities
+namespace EFCore.Lab.Repository.Entities
 {
     public partial class OtherDatum
     {
         public OtherDatum()
         {
-            EditInfoNews = new HashSet<EditInfo>();
-            EditInfoOlds = new HashSet<EditInfo>();
+            this.EditInfoNews = new HashSet<EditInfo>();
+            this.EditInfoOlds = new HashSet<EditInfo>();
         }
 
         public int OtherId { get; set; }

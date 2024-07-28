@@ -1,8 +1,8 @@
-﻿using LabWebApi.Repository.Entities;
+﻿using EFCore.Lab.Repository.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LabWebApi.Repository.Configurations
+namespace EFCore.Lab.Repository.Configurations
 {
     public partial class EndTableConfiguration : IEntityTypeConfiguration<EndTable>
     {
@@ -16,7 +16,7 @@ namespace LabWebApi.Repository.Configurations
 
             entity.Property(e => e.EndData).HasMaxLength(100);
 
-            OnConfigurePartial(entity);
+            this.OnConfigurePartial(entity);
         }
 
         partial void OnConfigurePartial(EntityTypeBuilder<EndTable> entity);

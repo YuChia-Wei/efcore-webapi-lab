@@ -1,14 +1,14 @@
 using System;
 using System.IO;
 using System.Text.Json;
-using LabWebApi.Repository;
+using EFCore.Lab.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace LabWebApi
+namespace EFCore.Lab.WebApi
 {
     /// <summary>
     /// start up

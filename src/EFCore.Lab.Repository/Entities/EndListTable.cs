@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace LabWebApi.Repository.Entities
+namespace EFCore.Lab.Repository.Entities
 {
     public partial class EndListTable
     {

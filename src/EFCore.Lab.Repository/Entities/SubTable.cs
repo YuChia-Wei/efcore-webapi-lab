@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace LabWebApi.Repository.Entities
+namespace EFCore.Lab.Repository.Entities
 {
     public partial class SubTable
     {
         public SubTable()
         {
-            DbFirstTables = new HashSet<DbFirstTable>();
+            this.DbFirstTables = new HashSet<DbFirstTable>();
         }
 
         public int SubId { get; set; }

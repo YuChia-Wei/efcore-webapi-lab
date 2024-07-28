@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LabWebApi.Controllers
+namespace EFCore.Lab.WebApi.Controllers
 {
     /// <summary>
     /// Time
@@ -18,7 +18,7 @@ namespace LabWebApi.Controllers
         [HttpGet("ConvertToLocal")]
         public IActionResult ConvertToLocal([FromQuery] DateTime input)
         {
-            return Ok(input.ToLocalTime());
+            return this.Ok(input.ToLocalTime());
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace LabWebApi.Controllers
         [HttpGet("ConvertToUtc")]
         public IActionResult ConvertToUtc([FromQuery] DateTime input)
         {
-            return Ok(input.ToUniversalTime());
+            return this.Ok(input.ToUniversalTime());
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace LabWebApi.Controllers
         [HttpGet("Direct")]
         public IActionResult Direct([FromQuery] DateTime input)
         {
-            return Ok(input);
+            return this.Ok(input);
         }
     }
 }

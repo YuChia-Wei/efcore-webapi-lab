@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace LabWebApi
+namespace EFCore.Lab.WebApi
 {
     public class Program
     {

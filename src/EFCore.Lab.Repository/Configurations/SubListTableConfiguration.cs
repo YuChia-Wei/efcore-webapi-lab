@@ -1,8 +1,8 @@
-﻿using LabWebApi.Repository.Entities;
+﻿using EFCore.Lab.Repository.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LabWebApi.Repository.Configurations
+namespace EFCore.Lab.Repository.Configurations
 {
     public partial class SubListTableConfiguration : IEntityTypeConfiguration<SubListTable>
     {
@@ -21,7 +21,7 @@ namespace LabWebApi.Repository.Configurations
                   .HasForeignKey(d => d.MainId)
                   .HasConstraintName("SubListTable_MainTable_MainId_fk");
 
-            OnConfigurePartial(entity);
+            this.OnConfigurePartial(entity);
         }
 
         partial void OnConfigurePartial(EntityTypeBuilder<SubListTable> entity);

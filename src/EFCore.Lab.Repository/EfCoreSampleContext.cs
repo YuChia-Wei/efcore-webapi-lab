@@ -1,8 +1,8 @@
-﻿using LabWebApi.Repository.Configurations;
-using LabWebApi.Repository.Entities;
+﻿using EFCore.Lab.Repository.Configurations;
+using EFCore.Lab.Repository.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LabWebApi.Repository
+namespace EFCore.Lab.Repository
 {
     public partial class EfCoreSampleContext : DbContext
     {
@@ -34,7 +34,7 @@ namespace LabWebApi.Repository
             modelBuilder.ApplyConfiguration(new OtherDatumConfiguration());
             modelBuilder.ApplyConfiguration(new SubListTableConfiguration());
             modelBuilder.ApplyConfiguration(new SubTableConfiguration());
-            OnModelCreatingPartial(modelBuilder);
+            this.OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

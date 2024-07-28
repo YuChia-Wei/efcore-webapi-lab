@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LabWebApi.Repository\LabWebApi.Repository.csproj" />
+    <ProjectReference Include="..\EFCore.Lab.Repository\EFCore.Lab.Repository.csproj" />
   </ItemGroup>
 
 </Project>

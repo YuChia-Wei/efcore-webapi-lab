@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LabWebApi.Repository;
-using LabWebApi.Repository.Entities;
+using EFCore.Lab.Repository;
+using EFCore.Lab.Repository.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace LabWebApi.Controllers
+namespace EFCore.Lab.WebApi.Controllers
 {
     /// <summary>
     /// </summary>
@@ -23,7 +23,7 @@ namespace LabWebApi.Controllers
         /// <param name="context"></param>
         public DbIncludeController(EfCoreSampleContext context)
         {
-            _context = context;
+            this._context = context;
         }
 
         /// <summary>
@@ -80,9 +80,9 @@ namespace LabWebApi.Controllers
                 }
             };
 
-            _context.DbFirstTables.Add(data);
+            this._context.DbFirstTables.Add(data);
 
-            await _context.SaveChangesAsync();
+            await this._context.SaveChangesAsync();
 
             return data;
         }
@@ -94,16 +94,16 @@ namespace LabWebApi.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var dbFirstTables = await _context.DbFirstTables
-                                              .Where(o => o.MainId == id)
-                                              .Include(o => o.Sub)
-                                              .ThenInclude(o => o.End)
-                                              .Include(o => o.SubListTables)
-                                              .ThenInclude(o => o.EndListTables)
-                                              .ToListAsync();
-            return Ok(dbFirstTables);
+            var dbFirstTables = await this._context.DbFirstTables
+                                          .Where(o => o.MainId == id)
+                                          .Include(o => o.Sub)
+                                          .ThenInclude(o => o.End)
+                                          .Include(o => o.SubListTables)
+                                          .ThenInclude(o => o.EndListTables)
+                                          .ToListAsync();
+            return this.Ok(dbFirstTables);
         }
-        
+
         /// <summary>
         /// </summary>
         /// <param name="id"></param>
@@ -111,12 +111,12 @@ namespace LabWebApi.Controllers
         [HttpGet("EditInfo/{id:int}")]
         public async Task<IActionResult> GetEditInfoAsync(int id)
         {
-            var dbFirstTables = await _context.EditInfos
-                                              .Where(o => o.EditId == id)
-                                              .Include(o => o.New)
-                                              .Include(o => o.Old)
-                                              .ToListAsync();
-            return Ok(dbFirstTables);
+            var dbFirstTables = await this._context.EditInfos
+                                          .Where(o => o.EditId == id)
+                                          .Include(o => o.New)
+                                          .Include(o => o.Old)
+                                          .ToListAsync();
+            return this.Ok(dbFirstTables);
         }
     }
 }

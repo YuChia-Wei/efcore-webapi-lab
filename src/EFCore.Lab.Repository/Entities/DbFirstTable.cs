@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LabWebApi.Repository.Entities
+namespace EFCore.Lab.Repository.Entities
 {
     public partial class DbFirstTable
     {
         public DbFirstTable()
         {
-            SubListTables = new HashSet<SubListTable>();
+            this.SubListTables = new HashSet<SubListTable>();
         }
 
         public int MainId { get; set; }

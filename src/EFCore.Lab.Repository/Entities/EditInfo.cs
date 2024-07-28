@@ -1,4 +1,4 @@
-﻿namespace LabWebApi.Repository.Entities
+﻿namespace EFCore.Lab.Repository.Entities
 {
     public partial class EditInfo
     {
