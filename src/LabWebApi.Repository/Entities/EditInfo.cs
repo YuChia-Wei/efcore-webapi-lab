@@ -1,5 +1,4 @@
-﻿#nullable disable
-namespace LabWebApi.Repository.Entities
+﻿namespace LabWebApi.Repository.Entities
 {
     public partial class EditInfo
     {

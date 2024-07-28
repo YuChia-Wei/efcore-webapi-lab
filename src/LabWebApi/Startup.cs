@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
 using System.Text.Json;
 using LabWebApi.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 
 namespace LabWebApi
 {
@@ -55,22 +53,21 @@ namespace LabWebApi
                     .AddJsonOptions(options =>
                     {
                         // 配合前端習慣, ViewModel 與 Parameter 顯示為小駝峰命名
-                        options.JsonSerializerOptions.PropertyNamingPolicy =
-                            JsonNamingPolicy.CamelCase;
-                    })
-                    .AddNewtonsoftJson(option =>
-                    {
-                        option.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+                        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                     });
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Lab Web Api", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{AppDomain.CurrentDomain.FriendlyName} V1", Version = "v1" });
 
                 // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                var basePath = AppContext.BaseDirectory;
+                var xmlFiles = Directory.EnumerateFiles(basePath, "*.xml", SearchOption.TopDirectoryOnly);
+
+                foreach (var xmlFile in xmlFiles)
+                {
+                    options.IncludeXmlComments(xmlFile);
+                }
             });
 
             services.AddDbContext<EfCoreSampleContext>();

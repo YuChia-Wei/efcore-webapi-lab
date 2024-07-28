@@ -1,58 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <UserSecretsId>dd717be7-548a-4036-ac66-a560c110d67e</UserSecretsId>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>dd717be7-548a-4036-ac66-a560c110d67e</UserSecretsId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <DocumentationFile>bin\Debug\LabWebApi.xml</DocumentationFile>
-    </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
+  </ItemGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DocumentationFile>bin\Release\LabWebApi.xml</DocumentationFile>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Content Remove="appsettings.Debug.json"/>
-        <Content Remove="appsettings.Release.json"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="appsettings.Debug.json">
-            <IsTransformFile>true</IsTransformFile>
-            <DependentUpon>appsettings.json</DependentUpon>
-        </None>
-        <None Include="appsettings.Release.json">
-            <IsTransformFile>true</IsTransformFile>
-            <DependentUpon>appsettings.json</DependentUpon>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.7"/>
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14"/>
-        <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="3.2.26">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4"/>
-        <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.1.4"/>
-        <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.4"/>
-        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.4"/>
-        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.4"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\LabWebApi.Repository\LabWebApi.Repository.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Update="appsettings.json">
-            <TransformOnBuild>true</TransformOnBuild>
-        </Content>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LabWebApi.Repository\LabWebApi.Repository.csproj" />
+  </ItemGroup>
 
 </Project>

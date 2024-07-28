@@ -2,10 +2,6 @@
 using LabWebApi.Repository.Entities;
 using Microsoft.EntityFrameworkCore;
 
-#nullable disable
-
-#nullable disable
-
 namespace LabWebApi.Repository
 {
     public partial class EfCoreSampleContext : DbContext
