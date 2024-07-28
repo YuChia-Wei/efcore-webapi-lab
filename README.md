@@ -1,5 +1,7 @@
 # dotnet 8 with Ef Core
 
+**this version is not tested!**
+
 > 全文參考以下兩個網址
 > * https://blog.jetbrains.com/dotnet/2017/08/09/running-entity-framework-core-commands-rider/
 > * https://docs.microsoft.com/zh-tw/ef/core/cli/dotnet
@@ -37,19 +39,6 @@ EF Core 設計相關套件
 
 * Microsoft.EntityFrameworkCore.Design
 
-若為 .net core 3.1 / .net 5 以上專案，可直接複製以下內容到 csproj 內，避開一個一個套件安裝的過程
-
-```xml
-<ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="5.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.7" />
-</ItemGroup>
-```
-
 ## 範例專案結構
 
 ![](https://i.imgur.com/Jb8VaAW.png)
@@ -74,7 +63,6 @@ dotnet ef dbcontext scaffold "Data Source=localhost;Initial Catalog=EFCoreSample
 
 ## 補充 - Db 建置 - 使用 docker 架設 MS SqlServer 2019
 
->
 參考資料：https://docs.microsoft.com/zh-tw/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&pivots=cs1-powershell
 
 * 準備最新版 MS Sql Server 2019 Image
