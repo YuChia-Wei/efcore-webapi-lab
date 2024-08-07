@@ -70,6 +70,16 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
+{
+    using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+
+    var context = serviceScope.ServiceProvider.GetRequiredService<SampleDbContext>();
+
+    await context.Database.EnsureCreatedAsync().ConfigureAwait(false);
+
+    await context.Database.MigrateAsync().ConfigureAwait(false);
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
