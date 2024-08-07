@@ -34,6 +34,7 @@ IDE : Rider
 * Microsoft.EntityFrameworkCore.SqlServer
 * Microsoft.EntityFrameworkCore.Sqlite
 * Microsoft.EntityFrameworkCore.InMemory
+* Npgsql.EntityFrameworkCore.PostgreSQL
 
 EF Core 設計相關套件
 
@@ -49,7 +50,7 @@ EF Core 設計相關套件
 
 ![](https://i.imgur.com/tHxKajW.png)
 
-下指令以依據 Db 結構產生內容
+下指令以依據 Db 結構產生內容 (應依據實際使用情境調整資料參數)
 
 ```cl
 dotnet ef dbcontext scaffold "Data Source=localhost;Initial Catalog=EFCoreSample;Persist Security Info=False;User ID=SA;Password=<YourStrong@Passw0rd>;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False" Microsoft.EntityFrameworkCore.SqlServer -c DbFirstContext
@@ -61,23 +62,25 @@ dotnet ef dbcontext scaffold "Data Source=localhost;Initial Catalog=EFCoreSample
 
 > 命令列的部分可以 [官方文件](https://docs.microsoft.com/zh-tw/ef/core/cli/dotnet) 去尋找參數
 
-## 補充 - Db 建置 - 使用 docker 架設 MS SqlServer 2019
+## 補充 - Db 建置 - 使用 docker 架設 MS SqlServer
 
 參考資料：https://docs.microsoft.com/zh-tw/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&pivots=cs1-powershell
 
-* 準備最新版 MS Sql Server 2019 Image
+* 準備最新版 MS Sql Server 2022 Image (莫約 600MB)
 
-    ```cli
-    docker pull mcr.microsoft.com/mssql/server:2019-latest
-    ```
+  [Microsoft MCR - Microsoft SQL Server - Ubuntu based images](https://mcr.microsoft.com/en-us/product/mssql/server/about)
+
+  ```cli
+  docker pull mcr.microsoft.com/mssql/server:2022-latest
+  ```
 
 * 執行 SqlServer
 
-    ```cl
-    docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=<YourStrong@Passw0rd>" -p 1433:1433 --name sql1 -h sql1 -d mcr.microsoft.com/mssql/server:2019-latest
-    ```
+  ```cl
+  docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=<YourStrong@Passw0rd>" -p 1433:1433 --name sql1 -h sql1 -d mcr.microsoft.com/mssql/server:2022-latest
+  ```
 
-完成以上兩個步驟就已經完成在 docker 上建置 sql server 2019，可用 localhost:1433 去測試 sql server 是否可以連線
+完成以上兩個步驟就已經完成在 docker 上建置 sql server 2022，可用 localhost:1433 去測試 sql server 是否可以連線
 
 > Host：localhost
 >
