@@ -52,7 +52,7 @@ EF Core 設計相關套件
 
 下指令以依據 Db 結構產生內容 (應依據實際使用情境調整資料參數)
 
-```cl
+```shell
 dotnet ef dbcontext scaffold "Data Source=localhost;Initial Catalog=EFCoreSample;Persist Security Info=False;User ID=SA;Password=<YourStrong@Passw0rd>;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False" Microsoft.EntityFrameworkCore.SqlServer -c DbFirstContext
 ```
 
@@ -68,15 +68,15 @@ dotnet ef dbcontext scaffold "Data Source=localhost;Initial Catalog=EFCoreSample
 
 * 準備最新版 MS Sql Server 2022 Image (莫約 600MB)
 
-  [Microsoft MCR - Microsoft SQL Server - Ubuntu based images](https://mcr.microsoft.com/en-us/product/mssql/server/about)
+  [Microsoft MCR : Microsoft SQL Server - Ubuntu-based images](https://mcr.microsoft.com/en-us/artifact/mar/mssql/server/about)
 
-  ```cli
+  ```shell
   docker pull mcr.microsoft.com/mssql/server:2022-latest
   ```
 
 * 執行 SqlServer
 
-  ```cl
+  ```shell
   docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=<YourStrong@Passw0rd>" -p 1433:1433 --name sql1 -h sql1 -d mcr.microsoft.com/mssql/server:2022-latest
   ```
 
