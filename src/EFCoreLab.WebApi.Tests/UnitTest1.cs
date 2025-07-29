@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EFCore.Lab.WebApi.Tests;
+namespace EFCoreLab.WebApi.Tests;
 
 [TestClass]
 public class UnitTest1

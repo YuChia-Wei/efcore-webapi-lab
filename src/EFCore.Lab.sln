@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreLab.WebApi", "EFCoreLab.WebApi\EFCoreLab.WebApi.csproj", "{4E6DC077-872F-4EA6-9134-E8683B5DFEE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCore.Lab.WebApi.Tests", "EFCore.Lab.WebApi.Tests\EFCore.Lab.WebApi.Tests.csproj", "{99B0E3C0-65CC-4621-B0FF-8DAB3FFC47BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreLab.WebApi.Tests", "EFCoreLab.WebApi.Tests\EFCoreLab.WebApi.Tests.csproj", "{99B0E3C0-65CC-4621-B0FF-8DAB3FFC47BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application", "2. Application", "{4685F9A2-B1C5-4CF6-8A83-5F11899FF32B}"
 EndProject
