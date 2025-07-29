@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EFCoreLab.CrossCutting.Observability\EFCoreLab.CrossCutting.Observability.csproj" />
     <ProjectReference Include="..\EFCoreLab.Persistence.Repositories\EFCoreLab.Persistence.Repositories.csproj" />
     <ProjectReference Include="..\EFCoreLab.Persistence.Metadata.SampleDb\EFCoreLab.Persistence.Metadata.SampleDb.csproj" />
   </ItemGroup>

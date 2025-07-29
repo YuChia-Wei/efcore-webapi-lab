@@ -33,12 +33,25 @@ public static class ServiceCollectionExtension
             ServiceLifetime.Scoped,
             ServiceLifetime.Singleton);
 
+        serviceCollection.AddDbContext<ReadOnlySampleDbContext>(
+            (provider, dbContextOptionsBuilder) =>
+            {
+                var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+
+                dbContextOptionsBuilder.UseLoggerFactory(loggerFactory)
+                                       .UseSqlServer(configuration.GetConnectionString("DefaultReadOnlyConnection"))
+                                       .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            },
+            ServiceLifetime.Scoped,
+            ServiceLifetime.Singleton);
+
         return serviceCollection;
     }
 
     private static IServiceCollection AddTreeDataRepository(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IDataTreesRepository, DataTreesInSampleDbRepository>();
+        serviceCollection.AddScoped<IDataTreesReadOnlyRepository, DataTreesInSampleDbReadOnlyRepository>();
 
         return serviceCollection;
     }

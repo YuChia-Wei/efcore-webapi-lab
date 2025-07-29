@@ -1,9 +1,11 @@
-﻿using EFCoreLab.Persistence.Metadata.SampleDb;
+﻿using EFCoreLab.CrossCutting.Observability.Tracing;
+using EFCoreLab.Persistence.Metadata.SampleDb;
 using EFCoreLab.Persistence.Metadata.SampleDb.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreLab.Persistence.Repositories.DataTrees;
 
+[TracingMethod]
 public class DataTreesInSampleDbRepository : IDataTreesRepository
 {
     private readonly SampleDbContext _context;
@@ -85,5 +87,15 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
 
         await this._context.SaveChangesAsync();
         return data;
+    }
+
+    public Task<DataTreeRoot> Update()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<DataTreeRoot> BulkUpdate()
+    {
+        throw new NotImplementedException();
     }
 }

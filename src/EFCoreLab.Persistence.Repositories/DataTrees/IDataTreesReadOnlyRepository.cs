@@ -2,10 +2,7 @@
 
 namespace EFCoreLab.Persistence.Repositories.DataTrees;
 
-public interface IDataTreesRepository
+public interface IDataTreesReadOnlyRepository
 {
-    Task<DataTreeRoot> BulkUpdate();
-    Task<DataTreeRoot> Create();
     Task<List<DataTreeRoot>> GetList(int id);
-    Task<DataTreeRoot> Update();
 }

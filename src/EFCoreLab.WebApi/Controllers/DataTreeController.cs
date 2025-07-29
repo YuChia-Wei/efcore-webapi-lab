@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EFCoreLab.CrossCutting.Observability.Tracing;
 using EFCoreLab.Persistence.Metadata.SampleDb.Entities;
 using EFCoreLab.Persistence.Repositories.DataTrees;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace EFCoreLab.WebApi.Controllers;
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
+[TracingMethod]
 public class DataTreeController : ControllerBase
 {
     private readonly IDataTreesRepository _dataTreesRepository;
