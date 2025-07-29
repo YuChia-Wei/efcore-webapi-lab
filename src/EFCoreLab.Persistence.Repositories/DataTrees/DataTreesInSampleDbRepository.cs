@@ -166,6 +166,27 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
         throw new NotImplementedException();
     }
 
+    public async Task UpdateListAsync(int skip, int take)
+    {
+        var dataTreeRoots = await this._context.RootTables
+                                      .Skip(skip)
+                                      .Take(take)
+                                      .ToListAsync();
+        foreach (var dataTreeRoot in dataTreeRoots)
+        {
+            dataTreeRoot.MainData = Guid.NewGuid().ToString();
+
+            foreach (var sub in dataTreeRoot.SubListTables)
+            {
+                sub.SubData = Guid.NewGuid().ToString();
+            }
+        }
+
+        this._context.UpdateRange(dataTreeRoots);
+
+        await this._context.SaveChangesAsync();
+    }
+
     public async Task BulkUpdateAsync(int skip, int take)
     {
         await this._context.RootTables

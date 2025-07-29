@@ -9,4 +9,5 @@ public interface IDataTreesRepository
     Task<DataTreeRootDto> CreateAsync();
     Task<DataTreeRootDto?> GetAsync(int id);
     Task<DataTreeRootDto> UpdateAsync();
+    Task UpdateListAsync(int skip, int take);
 }

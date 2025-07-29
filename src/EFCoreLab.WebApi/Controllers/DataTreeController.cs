@@ -45,7 +45,7 @@ public class DataTreeController : ControllerBase
     [HttpPatch("Bulk")]
     public async Task<IActionResult> BulkUpdateAsync([FromQuery] int skip, [FromQuery] int take)
     {
-        await this._dataTreesRepository.BulkUpdateAsync(1, 10);
+        await this._dataTreesRepository.BulkUpdateAsync(skip, take);
 
         var dbFirstTables = await this._dataTreesReadOnlyRepository.GetListAsync(skip, take);
         return this.Ok(dbFirstTables);
@@ -81,6 +81,21 @@ public class DataTreeController : ControllerBase
     [HttpGet("list")]
     public async Task<IActionResult> GetListAsync([FromQuery] int skip, [FromQuery] int take)
     {
+        var dbFirstTables = await this._dataTreesReadOnlyRepository.GetListAsync(skip, take);
+        return this.Ok(dbFirstTables);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="skip"></param>
+    /// <param name="take"></param>
+    /// <returns></returns>
+    [HttpPatch("PatchAndBulk")]
+    public async Task<IActionResult> PatchAndBulk([FromQuery] int skip, [FromQuery] int take)
+    {
+        await this._dataTreesRepository.UpdateListAsync(skip, take);
+        await this._dataTreesRepository.BulkUpdateAsync(skip, take);
+
         var dbFirstTables = await this._dataTreesReadOnlyRepository.GetListAsync(skip, take);
         return this.Ok(dbFirstTables);
     }
