@@ -16,7 +16,7 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
         this._context = context;
     }
 
-    public async Task<List<DataTreeRootDto>> GetList(int id)
+    public async Task<DataTreeRootDto?> GetAsync(int id)
     {
         var dbFirstTables = await this._context.RootTables
                                       .Where(o => o.MainId == id)
@@ -34,17 +34,21 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
             AmountField = o.AmountField,
             DateTimeField = o.DateTimeField,
             SubId = o.SubId,
-            Sub = o.Sub == null ? null : new SubTableDto
-            {
-                SubId = o.Sub.SubId,
-                SubData = o.Sub.SubData,
-                EndId = o.Sub.EndId,
-                End = o.Sub.End == null ? null : new EndTableDto
-                {
-                    EndId = o.Sub.End.EndId,
-                    EndData = o.Sub.End.EndData
-                }
-            },
+            Sub = o.Sub == null
+                      ? null
+                      : new SubTableDto
+                      {
+                          SubId = o.Sub.SubId,
+                          SubData = o.Sub.SubData,
+                          EndId = o.Sub.EndId,
+                          End = o.Sub.End == null
+                                    ? null
+                                    : new EndTableDto
+                                    {
+                                        EndId = o.Sub.End.EndId,
+                                        EndData = o.Sub.End.EndData
+                                    }
+                      },
             SubListTables = o.SubListTables.Select(s => new SubListTableDto
             {
                 SubId = s.SubId,
@@ -59,10 +63,10 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
             }).ToList()
         }).ToList();
 
-        return result;
+        return result.FirstOrDefault();
     }
 
-    public async Task<DataTreeRootDto> Create()
+    public async Task<DataTreeRootDto> CreateAsync()
     {
         var data = new DataTreeRoot
         {
@@ -125,17 +129,21 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
             AmountField = data.AmountField,
             DateTimeField = data.DateTimeField,
             SubId = data.SubId,
-            Sub = data.Sub == null ? null : new SubTableDto
-            {
-                SubId = data.Sub.SubId,
-                SubData = data.Sub.SubData,
-                EndId = data.Sub.EndId,
-                End = data.Sub.End == null ? null : new EndTableDto
-                {
-                    EndId = data.Sub.End.EndId,
-                    EndData = data.Sub.End.EndData
-                }
-            },
+            Sub = data.Sub == null
+                      ? null
+                      : new SubTableDto
+                      {
+                          SubId = data.Sub.SubId,
+                          SubData = data.Sub.SubData,
+                          EndId = data.Sub.EndId,
+                          End = data.Sub.End == null
+                                    ? null
+                                    : new EndTableDto
+                                    {
+                                        EndId = data.Sub.End.EndId,
+                                        EndData = data.Sub.End.EndData
+                                    }
+                      },
             SubListTables = data.SubListTables.Select(s => new SubListTableDto
             {
                 SubId = s.SubId,
@@ -153,13 +161,16 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
         return result;
     }
 
-    public Task<DataTreeRootDto> Update()
+    public async Task<DataTreeRootDto> UpdateAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<DataTreeRootDto> BulkUpdate()
+    public async Task BulkUpdateAsync(int skip, int take)
     {
-        throw new NotImplementedException();
+        await this._context.RootTables
+                  .Skip(skip)
+                  .Take(take)
+                  .ExecuteUpdateAsync(o => o.SetProperty(p => p.DateTimeField, DateTime.Now));
     }
 }

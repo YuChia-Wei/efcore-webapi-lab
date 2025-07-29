@@ -4,5 +4,5 @@ namespace EFCoreLab.Persistence.Repositories.DataTrees;
 
 public interface IDataTreesReadOnlyRepository
 {
-    Task<List<DataTreeRootDto>> GetList(int id);
+    Task<List<DataTreeRootDto>> GetListAsync(int skip, int take);
 }

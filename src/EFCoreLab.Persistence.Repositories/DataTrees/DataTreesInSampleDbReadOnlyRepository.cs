@@ -15,14 +15,15 @@ internal class DataTreesInSampleDbReadOnlyRepository : IDataTreesReadOnlyReposit
         this._context = context;
     }
 
-    public async Task<List<DataTreeRootDto>> GetList(int id)
+    public async Task<List<DataTreeRootDto>> GetListAsync(int skip, int take)
     {
         var dbFirstTables = await this._context.RootTables
-                                      .Where(o => o.MainId == id)
                                       .Include(o => o.Sub)
                                       .ThenInclude(o => o.End)
                                       .Include(o => o.SubListTables)
                                       .ThenInclude(o => o.EndListTables)
+                                      .Skip(skip)
+                                      .Take(take)
                                       .ToListAsync();
 
         // Manual mapping
