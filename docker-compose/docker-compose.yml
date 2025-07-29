@@ -1,0 +1,124 @@
+
+version: '3.8'
+
+services:
+  efcorelab-webapi:
+    build:
+      context: ../
+      dockerfile: src/EFCoreLab.WebApi/Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./env-file/efcorelab-webapi-otel.env
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4GB
+    depends_on:
+      - mssql
+      - otel-collector-contrib
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=<YourStrong@Passw0rd>
+    ports:
+      - "1433:1433"
+    # command ref: https://github.com/pm7y/DockerExamples/blob/main/mssql/docker-compose-mssql-init-cmd.yml
+    # command ref: https://m7y.me/post/2024-04-06-sql-server-init-docker-compose/
+    # command ref: https://stackoverflow.com/questions/69941444/how-to-have-docker-compose-init-a-sql-server-database
+    # command ref: https://stackoverflow.com/a/79088695
+    command: >
+      /bin/bash -c "
+      /opt/mssql/bin/sqlservr &
+
+      until /opt/mssql-tools18/bin/sqlcmd -l 1 -S localhost -U sa -P '<YourStrong@Passw0rd>' -Q 'SELECT 1' -C -N &> /dev/null; do
+        >&2 echo '>>>>>>>>>> SQL Server is unavailable - sleeping <<<<<<<<<<';
+        sleep 5;
+      done;
+      echo '>>>>>>>>>> SQL Server is ready - executing init script <<<<<<<<<<';
+      echo '>>>>>>>>>> create table <<<<<<<<<<';
+      /opt/mssql-tools18/bin/sqlcmd -l 5 -S mssql -U sa -P '<YourStrong@Passw0rd>' -d master -i /tmp/create_tables.sql -C -N;
+    
+      echo '>>>>>>>>>> insert mock data <<<<<<<<<<';
+      /opt/mssql-tools18/bin/sqlcmd -l 5 -S mssql -U sa -P '<YourStrong@Passw0rd>' -d master -i /tmp/insert_mock_data.sql -C -N;
+
+      echo '>>>>>>>>>> all init job was finished <<<<<<<<<<';
+      sleep infinity;"
+    volumes:
+      - ./mssql-init/create_tables.sql:/tmp/create_tables.sql
+      - ./mssql-init/insert_mock_data.sql:/tmp/insert_mock_data.sql
+
+  otel-collector-contrib:
+    image: otel/opentelemetry-collector-contrib:0.113.0
+    restart: always
+    container_name: otel-collector-contrib
+    command: [ "--config=/etc/otel-collector.yaml" ]
+    volumes:
+      - ./config/otel-collector-contrib-config.yaml:/etc/otel-collector.yaml
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "8889"
+
+  # 以下參考 grafana tempo 範例
+  # via: https://github.com/grafana/tempo/blob/main/example/docker-compose/otel-collector/docker-compose.yaml
+  tempo:
+    image: grafana/tempo:2.3.0
+    container_name: tempo
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./config/tempo.yaml:/etc/tempo.yaml
+#      - ./tempo-data:/tmp/tempo
+    ports:
+      - "3200"   # tempo
+      - "4317"  # otlp grpc
+      - "4318"  # otlp http
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.53.0
+    command:
+      - --config.file=/etc/prometheus.yaml
+      - --web.enable-remote-write-receiver
+      - --enable-feature=exemplar-storage
+    volumes:
+      - ./config/prometheus.yaml:/etc/prometheus.yaml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - otel-collector-contrib
+
+  # 以下參考 grafana loki 範例與其他 github 中找到的範本
+  # via: https://github.com/grafana/loki/blob/main/examples/getting-started/docker-compose.yaml
+  # via: https://github.com/mnadeem/boot-opentelemetry-tempo/blob/main/docker-compose.yaml
+  loki:
+    container_name: loki
+    image: grafana/loki:2.8.2
+    command: -config.file=/etc/loki/config.yaml
+    ports:
+      - 3102:3100
+      - 9095:9095
+    volumes:
+      - ./config/loki-local.yaml:/etc/loki/config.yaml
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    volumes:
+      - ./config/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ./config/grafana-dashboards-provisioning:/etc/grafana/provisioning/dashboards
+      - ./config/grafana-dashboards:/var/lib/grafana/dashboards
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor tempoSearch tempoBackendSearch tempoApmTable
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+      - tempo
+      - loki
