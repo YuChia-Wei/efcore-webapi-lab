@@ -7,7 +7,7 @@ public partial class SubTable
 {
     public SubTable()
     {
-        this.DbFirstTables = new HashSet<RootTable>();
+        this.DataTreeRoots = new HashSet<DataTreeRoot>();
     }
 
     public int SubId { get; set; }
@@ -17,5 +17,5 @@ public partial class SubTable
     public virtual EndTable End { get; set; }
 
     [JsonIgnore]
-    public virtual ICollection<RootTable> DbFirstTables { get; set; }
+    public virtual ICollection<DataTreeRoot> DataTreeRoots { get; set; }
 }

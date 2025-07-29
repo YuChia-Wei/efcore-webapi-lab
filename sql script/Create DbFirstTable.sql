@@ -23,16 +23,16 @@ create table SubTable
 )
     go
 
-create table DbFirstTable
+create table DataTreeRoot
 (
     MainId        int identity
-        constraint DbFirstTable_pk
+        constraint DataTreeRoot_pk
             primary key nonclustered,
     MainData      nvarchar(100),
     AmountField   decimal,
     DateTimeField datetime2,
     SubId         int
-        constraint DbFirstTable_SubTable_SubId_fk
+        constraint DataTreeRoot_SubTable_SubId_fk
             references SubTable
 )
     go
@@ -45,7 +45,7 @@ create table SubListTable
     SubData nvarchar(100),
     MainId  int
         constraint SubListTable_MainTable_MainId_fk
-            references DbFirstTable
+            references DataTreeRoot
 )
     go
 
@@ -60,35 +60,3 @@ create table EndListTable
             references SubListTable
 )
     go
-
-create table OtherData
-(
-    OtherId int identity
-        constraint OtherData_pk
-            primary key,
-    Data    nvarchar
-)
-    go
-
-create unique index OtherData_OtherId_uindex
-    on OtherData (OtherId)
-    go
-
-create table EditInfo
-(
-    OldId  int
-        constraint EditInfo_OtherData_OtherId_fk_Old
-            references OtherData,
-    NewId  int
-        constraint EditInfo_OtherData_OtherId_fk_New
-            references OtherData,
-    EditId int identity
-        constraint EditInfo_pk
-            primary key
-)
-    go
-
-create unique index EditInfo_EditId_uindex
-    on EditInfo (EditId)
-    go
-

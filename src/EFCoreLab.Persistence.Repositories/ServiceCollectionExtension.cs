@@ -1,5 +1,5 @@
 using EFCoreLab.Persistence.Metadata.SampleDb;
-using EFCoreLab.Persistence.Repositories.Roots;
+using EFCoreLab.Persistence.Repositories.DataTrees;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +38,7 @@ public static class ServiceCollectionExtension
 
     private static IServiceCollection AddTreeDataRepository(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddScoped<ITreeDataRepository, TreeDataInSampleDbRepository>();
+        serviceCollection.AddScoped<IDataTreesRepository, DataTreesInSampleDbRepository>();
 
         return serviceCollection;
     }

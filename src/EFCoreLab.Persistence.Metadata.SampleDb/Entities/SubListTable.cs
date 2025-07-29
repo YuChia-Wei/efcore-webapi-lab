@@ -15,7 +15,7 @@ public partial class SubListTable
     public int? MainId { get; set; }
 
     [JsonIgnore]
-    public virtual RootTable Main { get; set; }
+    public virtual DataTreeRoot Main { get; set; }
 
     public virtual ICollection<EndListTable> EndListTables { get; set; }
 }

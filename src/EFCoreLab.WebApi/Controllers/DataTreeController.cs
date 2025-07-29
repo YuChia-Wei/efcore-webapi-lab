@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using EFCoreLab.Persistence.Metadata.SampleDb.Entities;
-using EFCoreLab.Persistence.Repositories.Roots;
+using EFCoreLab.Persistence.Repositories.DataTrees;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EFCoreLab.WebApi.Controllers;
@@ -9,25 +9,25 @@ namespace EFCoreLab.WebApi.Controllers;
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
-public class DbIncludeController : ControllerBase
+public class DataTreeController : ControllerBase
 {
-    private readonly ITreeDataRepository _treeDataRepository;
+    private readonly IDataTreesRepository _dataTreesRepository;
 
     /// <summary>
     /// </summary>
-    /// <param name="treeDataRepository"></param>
-    public DbIncludeController(ITreeDataRepository treeDataRepository)
+    /// <param name="dataTreesRepository"></param>
+    public DataTreeController(IDataTreesRepository dataTreesRepository)
     {
-        this._treeDataRepository = treeDataRepository;
+        this._dataTreesRepository = dataTreesRepository;
     }
 
     /// <summary>
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public async Task<RootTable> GenerateAsync()
+    public async Task<DataTreeRoot> GenerateAsync()
     {
-        var data = await this._treeDataRepository.Create();
+        var data = await this._dataTreesRepository.Create();
 
         return data;
     }
@@ -39,7 +39,7 @@ public class DbIncludeController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetAsync(int id)
     {
-        var dbFirstTables = await this._treeDataRepository.GetList(id);
+        var dbFirstTables = await this._dataTreesRepository.GetList(id);
         return this.Ok(dbFirstTables);
     }
 }

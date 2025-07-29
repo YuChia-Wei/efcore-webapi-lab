@@ -2,9 +2,9 @@
 using EFCoreLab.Persistence.Metadata.SampleDb.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreLab.Persistence.Repositories.Roots;
+namespace EFCoreLab.Persistence.Repositories.DataTrees;
 
-public class TreeDataInSampleDbRepository : ITreeDataRepository
+public class DataTreesInSampleDbRepository : IDataTreesRepository
 {
     private readonly SampleDbContext _context;
 
@@ -13,12 +13,12 @@ public class TreeDataInSampleDbRepository : ITreeDataRepository
     /// This repository interacts with the `SampleDbContext` to perform CRUD operations.
     /// Implements the `IOrderRepository` interface.
     /// </summary>
-    public TreeDataInSampleDbRepository(SampleDbContext context)
+    public DataTreesInSampleDbRepository(SampleDbContext context)
     {
         this._context = context;
     }
 
-    public async Task<List<RootTable>> GetList(int id)
+    public async Task<List<DataTreeRoot>> GetList(int id)
     {
         var dbFirstTables = await this._context.RootTables
                                       .Where(o => o.MainId == id)
@@ -30,9 +30,9 @@ public class TreeDataInSampleDbRepository : ITreeDataRepository
         return dbFirstTables;
     }
 
-    public async Task<RootTable> Create()
+    public async Task<DataTreeRoot> Create()
     {
-        var data = new RootTable
+        var data = new DataTreeRoot
         {
             MainData = "123",
             AmountField = 123,
