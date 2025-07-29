@@ -1,6 +1,7 @@
 ﻿using EFCoreLab.CrossCutting.Observability.Tracing;
 using EFCoreLab.Persistence.Metadata.SampleDb;
-using EFCoreLab.Persistence.Metadata.SampleDb.Entities;
+using EFCoreLab.Persistence.Repositories.DataTrees.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreLab.Persistence.Repositories.DataTrees;
 
@@ -14,8 +15,49 @@ internal class DataTreesInSampleDbReadOnlyRepository : IDataTreesReadOnlyReposit
         this._context = context;
     }
 
-    public Task<List<DataTreeRoot>> GetList(int id)
+    public async Task<List<DataTreeRootDto>> GetList(int id)
     {
-        throw new NotImplementedException();
+        var dbFirstTables = await this._context.RootTables
+                                      .Where(o => o.MainId == id)
+                                      .Include(o => o.Sub)
+                                      .ThenInclude(o => o.End)
+                                      .Include(o => o.SubListTables)
+                                      .ThenInclude(o => o.EndListTables)
+                                      .ToListAsync();
+
+        // Manual mapping
+        var result = dbFirstTables.Select(o => new DataTreeRootDto
+        {
+            MainId = o.MainId,
+            MainData = o.MainData,
+            AmountField = o.AmountField,
+            DateTimeField = o.DateTimeField,
+            SubId = o.SubId,
+            Sub = o.Sub == null ? null : new SubTableDto
+            {
+                SubId = o.Sub.SubId,
+                SubData = o.Sub.SubData,
+                EndId = o.Sub.EndId,
+                End = o.Sub.End == null ? null : new EndTableDto
+                {
+                    EndId = o.Sub.End.EndId,
+                    EndData = o.Sub.End.EndData
+                }
+            },
+            SubListTables = o.SubListTables.Select(s => new SubListTableDto
+            {
+                SubId = s.SubId,
+                SubData = s.SubData,
+                MainId = s.MainId,
+                EndListTables = s.EndListTables.Select(e => new EndListTableDto
+                {
+                    EndId = e.EndId,
+                    EndData = e.EndData,
+                    SubId = e.SubId
+                }).ToList()
+            }).ToList()
+        }).ToList();
+
+        return result;
     }
 }

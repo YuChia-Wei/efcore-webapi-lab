@@ -1,6 +1,7 @@
 ﻿using EFCoreLab.CrossCutting.Observability.Tracing;
 using EFCoreLab.Persistence.Metadata.SampleDb;
 using EFCoreLab.Persistence.Metadata.SampleDb.Entities;
+using EFCoreLab.Persistence.Repositories.DataTrees.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreLab.Persistence.Repositories.DataTrees;
@@ -10,17 +11,12 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
 {
     private readonly SampleDbContext _context;
 
-    /// <summary>
-    /// Provides data access operations for orders and related entities in the database.
-    /// This repository interacts with the `SampleDbContext` to perform CRUD operations.
-    /// Implements the `IOrderRepository` interface.
-    /// </summary>
     public DataTreesInSampleDbRepository(SampleDbContext context)
     {
         this._context = context;
     }
 
-    public async Task<List<DataTreeRoot>> GetList(int id)
+    public async Task<List<DataTreeRootDto>> GetList(int id)
     {
         var dbFirstTables = await this._context.RootTables
                                       .Where(o => o.MainId == id)
@@ -29,10 +25,44 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
                                       .Include(o => o.SubListTables)
                                       .ThenInclude(o => o.EndListTables)
                                       .ToListAsync();
-        return dbFirstTables;
+
+        // Manual mapping
+        var result = dbFirstTables.Select(o => new DataTreeRootDto
+        {
+            MainId = o.MainId,
+            MainData = o.MainData,
+            AmountField = o.AmountField,
+            DateTimeField = o.DateTimeField,
+            SubId = o.SubId,
+            Sub = o.Sub == null ? null : new SubTableDto
+            {
+                SubId = o.Sub.SubId,
+                SubData = o.Sub.SubData,
+                EndId = o.Sub.EndId,
+                End = o.Sub.End == null ? null : new EndTableDto
+                {
+                    EndId = o.Sub.End.EndId,
+                    EndData = o.Sub.End.EndData
+                }
+            },
+            SubListTables = o.SubListTables.Select(s => new SubListTableDto
+            {
+                SubId = s.SubId,
+                SubData = s.SubData,
+                MainId = s.MainId,
+                EndListTables = s.EndListTables.Select(e => new EndListTableDto
+                {
+                    EndId = e.EndId,
+                    EndData = e.EndData,
+                    SubId = e.SubId
+                }).ToList()
+            }).ToList()
+        }).ToList();
+
+        return result;
     }
 
-    public async Task<DataTreeRoot> Create()
+    public async Task<DataTreeRootDto> Create()
     {
         var data = new DataTreeRoot
         {
@@ -86,15 +116,49 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
         this._context.RootTables.Add(data);
 
         await this._context.SaveChangesAsync();
-        return data;
+
+        // Manual mapping
+        var result = new DataTreeRootDto
+        {
+            MainId = data.MainId,
+            MainData = data.MainData,
+            AmountField = data.AmountField,
+            DateTimeField = data.DateTimeField,
+            SubId = data.SubId,
+            Sub = data.Sub == null ? null : new SubTableDto
+            {
+                SubId = data.Sub.SubId,
+                SubData = data.Sub.SubData,
+                EndId = data.Sub.EndId,
+                End = data.Sub.End == null ? null : new EndTableDto
+                {
+                    EndId = data.Sub.End.EndId,
+                    EndData = data.Sub.End.EndData
+                }
+            },
+            SubListTables = data.SubListTables.Select(s => new SubListTableDto
+            {
+                SubId = s.SubId,
+                SubData = s.SubData,
+                MainId = s.MainId,
+                EndListTables = s.EndListTables.Select(e => new EndListTableDto
+                {
+                    EndId = e.EndId,
+                    EndData = e.EndData,
+                    SubId = e.SubId
+                }).ToList()
+            }).ToList()
+        };
+
+        return result;
     }
 
-    public Task<DataTreeRoot> Update()
+    public Task<DataTreeRootDto> Update()
     {
         throw new NotImplementedException();
     }
 
-    public Task<DataTreeRoot> BulkUpdate()
+    public Task<DataTreeRootDto> BulkUpdate()
     {
         throw new NotImplementedException();
     }

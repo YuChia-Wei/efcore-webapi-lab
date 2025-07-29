@@ -1,11 +1,11 @@
-﻿using EFCoreLab.Persistence.Metadata.SampleDb.Entities;
+﻿using EFCoreLab.Persistence.Repositories.DataTrees.Dtos;
 
 namespace EFCoreLab.Persistence.Repositories.DataTrees;
 
 public interface IDataTreesRepository
 {
-    Task<DataTreeRoot> BulkUpdate();
-    Task<DataTreeRoot> Create();
-    Task<List<DataTreeRoot>> GetList(int id);
-    Task<DataTreeRoot> Update();
+    Task<DataTreeRootDto> BulkUpdate();
+    Task<DataTreeRootDto> Create();
+    Task<List<DataTreeRootDto>> GetList(int id);
+    Task<DataTreeRootDto> Update();
 }

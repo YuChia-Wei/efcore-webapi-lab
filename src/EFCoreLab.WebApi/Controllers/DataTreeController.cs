@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using EFCoreLab.Persistence.Repositories.DataTrees.Dtos;
+using System.Threading.Tasks;
 using EFCoreLab.CrossCutting.Observability.Tracing;
-using EFCoreLab.Persistence.Metadata.SampleDb.Entities;
 using EFCoreLab.Persistence.Repositories.DataTrees;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +27,7 @@ public class DataTreeController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public async Task<DataTreeRoot> GenerateAsync()
+    public async Task<DataTreeRootDto> GenerateAsync()
     {
         var data = await this._dataTreesRepository.Create();
 

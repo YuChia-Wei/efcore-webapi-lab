@@ -1,8 +1,8 @@
-﻿using EFCoreLab.Persistence.Metadata.SampleDb.Entities;
+﻿using EFCoreLab.Persistence.Repositories.DataTrees.Dtos;
 
 namespace EFCoreLab.Persistence.Repositories.DataTrees;
 
 public interface IDataTreesReadOnlyRepository
 {
-    Task<List<DataTreeRoot>> GetList(int id);
+    Task<List<DataTreeRootDto>> GetList(int id);
 }
