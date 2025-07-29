@@ -1,4 +1,3 @@
-
 namespace EFCoreLab.Persistence.Repositories.DataTrees.Dtos;
 
 public class EndTableDto

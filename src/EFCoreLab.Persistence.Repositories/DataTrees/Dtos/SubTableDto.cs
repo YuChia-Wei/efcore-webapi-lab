@@ -1,6 +1,3 @@
-
-using System.Collections.Generic;
-
 namespace EFCoreLab.Persistence.Repositories.DataTrees.Dtos;
 
 public class SubTableDto

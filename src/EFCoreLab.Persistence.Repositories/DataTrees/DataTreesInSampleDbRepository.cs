@@ -173,4 +173,63 @@ public class DataTreesInSampleDbRepository : IDataTreesRepository
                   .Take(take)
                   .ExecuteUpdateAsync(o => o.SetProperty(p => p.DateTimeField, DateTime.Now));
     }
+
+    public async Task<int> BatchInsertAsync(int count)
+    {
+        var random = new Random();
+        for (var i = 0; i < count; i++)
+        {
+            var data = new DataTreeRoot
+            {
+                MainData = Guid.NewGuid().ToString(),
+                AmountField = random.Next(1, 1000),
+                DateTimeField = DateTime.UtcNow,
+                Sub = new SubTable
+                {
+                    SubData = Guid.NewGuid().ToString(),
+                    End = new EndTable
+                    {
+                        EndData = Guid.NewGuid().ToString()
+                    }
+                },
+                SubListTables = new List<SubListTable>
+                {
+                    new SubListTable
+                    {
+                        SubData = Guid.NewGuid().ToString(),
+                        EndListTables = new List<EndListTable>
+                        {
+                            new EndListTable
+                            {
+                                EndData = Guid.NewGuid().ToString()
+                            },
+                            new EndListTable
+                            {
+                                EndData = Guid.NewGuid().ToString()
+                            }
+                        }
+                    },
+                    new SubListTable
+                    {
+                        SubData = Guid.NewGuid().ToString(),
+                        EndListTables = new List<EndListTable>
+                        {
+                            new EndListTable
+                            {
+                                EndData = Guid.NewGuid().ToString()
+                            },
+                            new EndListTable
+                            {
+                                EndData = Guid.NewGuid().ToString()
+                            }
+                        }
+                    }
+                }
+            };
+            this._context.RootTables.Add(data);
+        }
+
+        await this._context.SaveChangesAsync();
+        return count;
+    }
 }

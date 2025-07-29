@@ -28,6 +28,17 @@ public class DataTreeController : ControllerBase
 
     /// <summary>
     /// </summary>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    [HttpPost("BatchInsert")]
+    public async Task<IActionResult> BatchInsertAsync([FromQuery] int count)
+    {
+        var insertedCount = await this._dataTreesRepository.BatchInsertAsync(count);
+        return this.Ok(insertedCount);
+    }
+
+    /// <summary>
+    /// </summary>
     /// <param name="skip"></param>
     /// <param name="take"></param>
     /// <returns></returns>
@@ -59,6 +70,18 @@ public class DataTreeController : ControllerBase
     public async Task<IActionResult> GetAsync(int id)
     {
         var dbFirstTables = await this._dataTreesRepository.GetAsync(id);
+        return this.Ok(dbFirstTables);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="skip"></param>
+    /// <param name="take"></param>
+    /// <returns></returns>
+    [HttpGet("list")]
+    public async Task<IActionResult> GetListAsync([FromQuery] int skip, [FromQuery] int take)
+    {
+        var dbFirstTables = await this._dataTreesReadOnlyRepository.GetListAsync(skip, take);
         return this.Ok(dbFirstTables);
     }
 }

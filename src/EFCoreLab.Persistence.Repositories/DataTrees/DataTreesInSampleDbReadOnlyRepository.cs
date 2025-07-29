@@ -22,7 +22,7 @@ internal class DataTreesInSampleDbReadOnlyRepository : IDataTreesReadOnlyReposit
                                       .ThenInclude(o => o.End)
                                       .Include(o => o.SubListTables)
                                       .ThenInclude(o => o.EndListTables)
-                                      .Skip(skip)
+                                      .Skip(skip + 1)
                                       .Take(take)
                                       .ToListAsync();
 
@@ -34,17 +34,21 @@ internal class DataTreesInSampleDbReadOnlyRepository : IDataTreesReadOnlyReposit
             AmountField = o.AmountField,
             DateTimeField = o.DateTimeField,
             SubId = o.SubId,
-            Sub = o.Sub == null ? null : new SubTableDto
-            {
-                SubId = o.Sub.SubId,
-                SubData = o.Sub.SubData,
-                EndId = o.Sub.EndId,
-                End = o.Sub.End == null ? null : new EndTableDto
-                {
-                    EndId = o.Sub.End.EndId,
-                    EndData = o.Sub.End.EndData
-                }
-            },
+            Sub = o.Sub == null
+                      ? null
+                      : new SubTableDto
+                      {
+                          SubId = o.Sub.SubId,
+                          SubData = o.Sub.SubData,
+                          EndId = o.Sub.EndId,
+                          End = o.Sub.End == null
+                                    ? null
+                                    : new EndTableDto
+                                    {
+                                        EndId = o.Sub.End.EndId,
+                                        EndData = o.Sub.End.EndData
+                                    }
+                      },
             SubListTables = o.SubListTables.Select(s => new SubListTableDto
             {
                 SubId = s.SubId,
